@@ -42,7 +42,11 @@ var List = function List() {
     var pastNode, iterator = _first;
     while (iterator) {
       if (iterator.value().value() === item) {
-        pastNode.remove();
+        if (iterator === _first) {
+          _first = iterator.next();
+        } else {
+          pastNode.remove();
+        }
         return iterator.value();
       }
       pastNode = iterator;

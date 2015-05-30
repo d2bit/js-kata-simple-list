@@ -20,9 +20,15 @@ describe('SimpleList', function() {
     list.add(new Node('one'));
     list.add(new Node('two'));
     list.add(new Node('three'));
-    expect(list.values()).toEqual(['one', 'two', 'three']);
+    list.add(new Node('four'));
+    list.add(new Node('five'));
+    expect(list.values()).toEqual(['one', 'two', 'three', 'four', 'five']);
     expect(list.remove('two').value()).toBe('two');
+    expect(list.values()).toEqual(['one', 'three', 'four', 'five']);
+    expect(list.remove('one').value()).toBe('one');
+    expect(list.values()).toEqual(['three', 'four', 'five']);
+    expect(list.remove('five').value()).toBe('five');
     expect(list.remove('nine')).toBe(undefined);
-    expect(list.values()).toEqual(['one', 'three']);
+    expect(list.values()).toEqual(['three', 'four']);
   });
 });
