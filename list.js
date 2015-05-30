@@ -3,46 +3,52 @@
 // http://codekata.com/kata/kata21-simple-lists
 //
 
-function List() {
-  var _content = [];
+var Node = require('./node');
 
-  function _values() {
-    return _content;
-  }
+var List = function List() {
+  var _first = undefined,
+      _last = _first;
 
-  function _add(item) {
-    _content.push(item);
-    return _content;
-  }
-
-  function _find(item) {
-    var found = undefined;
-    _content.some(function(element) {
-      if (item === element) {
-        found = element;
-        return true;
-      }
-    });
-    return found;
-  }
-
-  function _remove(item) {
-    var removedItem = undefined;
-    _content.some(function(element, index) {
-      if (item === element) {
-        removedItem = _content.splice(index, 1)[0];
-        return true;
-      }
-    });
-    return removedItem;
-  }
-
-  return {
-    values: _values,
-    add: _add,
-    find: _find,
-    remove: _remove,
+  this.values = function values() {
+    var valuesArray = [];
+    var iterator = _first;
+    while (iterator) {
+      valuesArray.push(iterator.value().value());
+      iterator = iterator.next();
+    }
+    return valuesArray;
   };
-}
+
+  this.add = function append(item) {
+    if (_last) {
+      _last = _last.append(new Node(item));
+    } else {
+      _first = _last = new Node(item);
+    }
+    return this.values();
+  };
+
+  this.find = function find(item) {
+    var iterator = _first;
+    while (iterator) {
+      if (iterator.value().value() === item) {
+        return iterator.value();
+      }
+      iterator = iterator.next();
+    }
+  };
+
+  this.remove = function remove(item) {
+    var pastNode, iterator = _first;
+    while (iterator) {
+      if (iterator.value().value() === item) {
+        pastNode.remove();
+        return iterator.value();
+      }
+      pastNode = iterator;
+      iterator = iterator.next();
+    }
+  };
+};
 
 module.exports = List;
